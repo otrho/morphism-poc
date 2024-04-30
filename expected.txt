@@ -1,0 +1,74 @@
+- initialising a to 0
+  - stack:
+- initialising b to (11 22 33 44)
+  - stack:
+- pushing number 4
+  - stack: 4
+- pushing variable a
+  - stack: 4 0
+- pushing number 22
+  - stack: 4 0 22
+- dropping
+  - stack: 4 0
+- pushing variable b
+  - stack: 4 0 44 33 22 11
+- overing
+  - stack: 4 0 44 33 22 11 22
+- overing
+  - stack: 4 0 44 33 22 11 22 11
+- duping
+  - stack: 4 0 44 33 22 11 22 11 11
+- eq
+  - stack: 4 0 44 33 22 11 22 1
+- pushing number 2
+  - stack: 4 0 44 33 22 11 22 1 2
+- eq
+  - stack: 4 0 44 33 22 11 22 0
+- dropping
+  - stack: 4 0 44 33 22 11 22
+- lt
+  - stack: 4 0 44 33 22 1
+- duping
+  - stack: 4 0 44 33 22 1 1
+- lt
+  - stack: 4 0 44 33 22 0
+- dropping
+  - stack: 4 0 44 33 22
+- gt
+  - stack: 4 0 44 1
+- duping
+  - stack: 4 0 44 1 1
+- gt
+  - stack: 4 0 44 0
+- dropping
+  - stack: 4 0 44
+- pushing number 33
+  - stack: 4 0 44 33
+- overing
+  - stack: 4 0 44 33 44
+- overing
+  - stack: 4 0 44 33 44 33
+- lte
+  - stack: 4 0 44 33 0
+- duping
+  - stack: 4 0 44 33 0 0
+- lte
+  - stack: 4 0 44 33 1
+- pushing number 2
+  - stack: 4 0 44 33 1 2
+- lte
+  - stack: 4 0 44 33 1
+- dropping
+  - stack: 4 0 44 33
+- gte
+  - stack: 4 0 1
+- duping
+  - stack: 4 0 1 1
+- gte
+  - stack: 4 0 1
+- pushing number 2
+  - stack: 4 0 1 2
+- gte
+  - stack: 4 0 0
+- dropping
+  - stack: 4 0

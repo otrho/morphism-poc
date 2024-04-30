@@ -3,5 +3,46 @@ var b [11 22 33 44]
 
 push 4
 push a
+
 push 22
+drop
+
+push b
+
+over
+over
+
+dup
+
+eq
+push 2
+eq
+drop
+
+lt
+dup
+lt
+drop
+
+gt
+dup
+gt
+drop
+
+push 33
+over
+over
+
+lte
+dup
+lte
+push 2
+lte
+drop
+
+gte
+dup
+gte
+push 2
+gte
 drop
