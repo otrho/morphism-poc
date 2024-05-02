@@ -72,3 +72,39 @@
   - stack: 4 0 0
 - dropping
   - stack: 4 0
+- pushing variable b
+  - stack: 4 0 44 33 22 11
+- add
+  - stack: 4 0 44 33 33
+- sub
+  - stack: 4 0 44 0
+- dropping
+  - stack: 4 0 44
+- pushing number 11
+  - stack: 4 0 44 11
+- div
+  - stack: 4 0 4
+- pushing number 3
+  - stack: 4 0 4 3
+- mod
+  - stack: 4 0 1
+- pushing number 11
+  - stack: 4 0 1 11
+- and
+  - stack: 4 0 1
+- or
+  - stack: 4 1
+- pushing number 0
+  - stack: 4 1 0
+- and
+  - stack: 4 0
+- pushing number 0
+  - stack: 4 0 0
+- or
+  - stack: 4 0
+- dropping
+  - stack: 4
+- not
+  - stack: 0
+- not
+  - stack: 1

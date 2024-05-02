@@ -15,12 +15,11 @@
       :item (+ :var-decl
                :push :drop
                :dup :over
-               :eq :lte :lt :gte :gt)
+               :eq :lte :lt :gte :gt
+               :and :or :not
+               :add :sub :mul :div :mod)
 
-      # :array-get :array-set
       # :dup-from-top :swap :nip :tuck :rot
-      # :and :or :not
-      # :add :sub :mul :div :mod
       # :halt :jump :jump-if
       # :repeat https://github.com/essential-contributions/specs/pull/98
       # :alloc :free :truncate
@@ -39,6 +38,16 @@
       :lte (* (constant :lte) "lte" :s*)
       :gt (* (constant :gt) "gt" :s*)
       :gte (* (constant :gte) "gte" :s*)
+
+      :and (* (constant :and) "and" :s*)
+      :or (* (constant :or) "or" :s*)
+      :not (* (constant :not) "not" :s*)
+
+      :add (* (constant :add) "add" :s*)
+      :sub (* (constant :sub) "sub" :s*)
+      :mul (* (constant :mul) "mul" :s*)
+      :div (* (constant :div) "div" :s*)
+      :mod (* (constant :mod) "mod" :s*)
 
       :ident (* (<- (* :a (any :w))) :s*)
 
@@ -97,7 +106,7 @@
   (print "- dropping")
   (array/pop stack))
 
-# dup: ( a -- a a)
+# dup: ( a -- a a )
 (defn cmd-dup
   [line-idx stack]
 
@@ -133,12 +142,38 @@
   (with-syms [$lhs $rhs]
     ~(fn (,$lhs ,$rhs) (if (,op ,$lhs ,$rhs) 1 0))))
 
-# eq, lt, gt, lte, gte: ( a a -- p)
+# eq, lt, gt, lte, gte: ( a a -- p )
 (defn cmd-eq [line-idx stack] (binary-op "eq" (comparison-op =) line-idx stack))
 (defn cmd-lt [line-idx stack] (binary-op "lt" (comparison-op <) line-idx stack))
 (defn cmd-gt [line-idx stack] (binary-op "gt" (comparison-op >) line-idx stack))
 (defn cmd-lte [line-idx stack] (binary-op "lte" (comparison-op <=) line-idx stack))
 (defn cmd-gte [line-idx stack] (binary-op "gte" (comparison-op >=) line-idx stack))
+
+# Convert boolean op to work on numbers.  In Janet zero is truthy.
+(defmacro boolean-op
+  [op]
+
+  (with-syms [$lhs $rhs]
+    ~(fn (,$lhs ,$rhs) (if (,op (not (zero? ,$lhs)) (not (zero? ,$rhs))) 1 0))))
+
+# and, or: ( p p -- p )
+(defn cmd-and [line-idx stack] (binary-op "and" (boolean-op and) line-idx stack))
+(defn cmd-or [line-idx stack] (binary-op "or" (boolean-op or) line-idx stack))
+
+# not: ( p -- p )
+(defn cmd-not [line-idx stack]
+
+  (assert-stack line-idx stack "not" 1)
+
+  (print "- not")
+  (array/push stack (if (zero? (array/pop stack)) 1 0)))
+
+# add, sub, mul, div, mod: ( a a -- a )
+(defn cmd-add [line-idx stack] (binary-op "add" + line-idx stack))
+(defn cmd-sub [line-idx stack] (binary-op "sub" - line-idx stack))
+(defn cmd-mul [line-idx stack] (binary-op "mul" * line-idx stack))
+(defn cmd-div [line-idx stack] (binary-op "div" div line-idx stack))
+(defn cmd-mod [line-idx stack] (binary-op "mod" mod line-idx stack))
 
 (defn main
   [& args]
@@ -169,7 +204,6 @@
 
     (when (not (empty? line))
       (let [cmd (parse-line line)]
-        #(pp cmd)
         (match cmd
 
           @[:var name val]
@@ -188,6 +222,16 @@
           :gt (cmd-gt line-idx stack)
           :lte (cmd-lte line-idx stack)
           :gte (cmd-gte line-idx stack)
+
+          :add (cmd-add line-idx stack)
+          :sub (cmd-sub line-idx stack)
+          :mul (cmd-mul line-idx stack)
+          :div (cmd-div line-idx stack)
+          :mod (cmd-mod line-idx stack)
+
+          :and (cmd-and line-idx stack)
+          :or (cmd-or line-idx stack)
+          :not (cmd-not line-idx stack)
 
           (error (string/format "line %d: unknown cmd: %p" line-idx cmd))))
 

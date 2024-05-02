@@ -46,3 +46,23 @@ gte
 push 2
 gte
 drop
+
+push b
+add
+sub
+drop
+push 11
+div
+push 3
+mod
+
+push 11
+and
+or
+push 0
+and
+push 0
+or
+drop
+not
+not
