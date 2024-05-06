@@ -2,4 +2,4 @@
 
 test_dir=$(dirname ${0})
 
-diff -u <("${test_dir}/interp.janet" "${test_dir}/test.ism") "${test_dir}/expected.txt"
+diff -u "${test_dir}/expected.txt" <("${test_dir}/interp.janet" "${test_dir}/test.ism")
