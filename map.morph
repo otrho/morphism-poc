@@ -1,0 +1,13 @@
+(var a [11 22 33 44])
+
+# double all
+(var dbla [22 44 66 88])
+(assert (eq dbla (map a (fn [el] (* 2 el)))))
+(assert (eq dbla (map a (fn [el] (* el 2)))))
+(assert (eq dbla (map a (fn [el] (+ el el)))))
+
+# (\x -> 1 + x * b + x + x + x) => all 5x + 1, where b = 2 == [56 111 166 221]
+(var b 2)
+(var c [56 111 166 221])
+(assert (eq c (map a
+  (fn [el] (+ 1 (+ (* el b) (+ (+ el el) el)))))))
