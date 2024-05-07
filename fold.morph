@@ -1,0 +1,28 @@
+(var a [11 22 33 44])
+
+# sum
+(assert (eq 110 (fold a 0 (fn [acc el] (+ acc el)))))
+(assert (eq 110 (fold a 0 (fn [acc el] (+ el acc)))))
+
+# length
+(assert (eq 4 (fold a 0 (fn [acc el] (+ acc 1)))))
+(assert (eq 4 (fold a 0 (fn [acc el] (+ 1 acc)))))
+
+# last
+(assert (eq 44 (fold a 0 (fn [acc el] el))))
+(assert (eq 44 (fold a 0 (fn [acc el] (+ el 0)))))
+(assert (eq 44 (fold a 0 (fn [acc el] (* 1 el)))))
+
+# id
+(assert (eq 55 (fold a 55 (fn [acc el] acc))))
+
+# len^2
+(assert (eq 16 (fold a 1 (fn [acc el] (+ acc acc)))))
+
+# last x2
+(assert (eq 88 (fold a 0 (fn [acc el] (+ el el)))))
+
+# sum with sub-expressions
+(assert (eq 110 (fold a 0 (fn [acc el] (+ (* 1 acc) el)))))
+(assert (eq 110 (fold a 0 (fn [acc el] (+ acc (+ el 0))))))
+(assert (eq 110 (fold a 0 (fn [acc el] (+ (* acc 1) (+ 0 el))))))

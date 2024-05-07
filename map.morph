@@ -6,6 +6,9 @@
 (assert (eq dbla (map a (fn [el] (* el 2)))))
 (assert (eq dbla (map a (fn [el] (+ el el)))))
 
+# id
+(assert (eq a (map a (fn [el] el))))
+
 # (\x -> 1 + x * b + x + x + x) => all 5x + 1, where b = 2 == [56 111 166 221]
 (var b 2)
 (var c [56 111 166 221])
