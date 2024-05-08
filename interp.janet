@@ -9,7 +9,7 @@
       :item (+ :var-decl
                :push :len :get :cmp
                :rep :idx :end
-               :drop :dup :over :swap :rot
+               :drop :dup :over :swap :rot :pick
                :eq :lte :lt :gte :gt
                :and :or :not
                :add :sub :mul :div :mod
@@ -30,6 +30,7 @@
       :over (* (constant :over) "over" :s*)
       :swap (* (constant :swap) "swap" :s*)
       :rot (* (constant :rot) "rot" :s*)
+      :pick (* (constant :pick) "pick" :s*)
 
       :eq (* (constant :eq) "eq" :s*)
       :lt (* (constant :lt) "lt" :s*)
@@ -266,6 +267,18 @@
   (array/push stack c)
   (array/push stack a))
 
+# pick: ( ... n -- ... a )
+(defn cmd-pick
+  [line-idx stack]
+
+  (assert-stack line-idx stack "pick" 1)
+
+  (def idx (array/pop stack))
+  (assert-stack line-idx stack "pick (idx)" (inc idx))
+
+  (print (string/format "- pick %d" idx))
+  (array/push stack (get stack (- (length stack) 1 idx))))
+
 # Binary operator wrapper.
 (defn binary-op
   [name cmd line-idx stack]
@@ -398,6 +411,7 @@
             :over (cmd-over line-idx stack)
             :swap (cmd-swap line-idx stack)
             :rot (cmd-rot line-idx stack)
+            :pick (cmd-pick line-idx stack)
 
             :eq (cmd-eq line-idx stack)
             :lt (cmd-lt line-idx stack)

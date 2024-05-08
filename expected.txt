@@ -176,7 +176,27 @@
     - stack: 1 1
  73 - assert (1)
     - stack: 1
- 74 - pushing number 0
-    - stack: 1 0
- 75 - assert (0)
+ 74 - pushing number 66
+    - stack: 1 66
+ 75 - pushing number 55
+    - stack: 1 66 55
+ 76 - pushing number 44
+    - stack: 1 66 55 44
+ 77 - pushing number 0
+    - stack: 1 66 55 44 0
+ 78 - pick 0
+    - stack: 1 66 55 44 44
+ 79 - dropping
+    - stack: 1 66 55 44
+ 80 - pushing number 1
+    - stack: 1 66 55 44 1
+ 81 - pick 1
+    - stack: 1 66 55 44 55
+ 82 - pushing number 3
+    - stack: 1 66 55 44 55 3
+ 83 - pick 3
+    - stack: 1 66 55 44 55 66
+ 84 - pushing number 0
+    - stack: 1 66 55 44 55 66 0
+ 85 - assert (0)
 ASSERTION FAILED
